@@ -14,4 +14,14 @@ class DefaultController extends Controller
     {
         return $this->render('ReactDemoBundle:Default:index.html.twig');
     }
+
+    /**
+     * @Route("/create")
+     */
+    public function createAction()
+    {
+        //echo 'hola';
+        echo $_POST['email'];
+        exit;
+    }
 }

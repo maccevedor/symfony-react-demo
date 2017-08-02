@@ -1,4 +1,6 @@
 import React, { PropTypes } from 'react';
+import $ from "jquery";
+
 import ReactDOM from 'react-dom';
 import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button } from 'antd';
 const FormItem = Form.Item;
@@ -37,9 +39,23 @@ const RegistrationForm = Form.create()(
         },
         handleSubmit(e) {
             e.preventDefault();
+            debugger;
             this.props.form.validateFieldsAndScroll((err, values) => {
                 if (!err) {
                     console.log('Received values of form: ', values);
+
+                     $.ajax({
+                        type: 'POST',
+                        url: '/create',
+                        data: values
+                    })
+                    .done(function(data) {
+                        self.clearForm()
+                    })
+                    .fail(function(jqXhr) {
+                        console.log('failed to register');
+                    });
+
                 }
             });
         },
@@ -85,7 +101,7 @@ const RegistrationForm = Form.create()(
                 <Form horizontal onSubmit={this.handleSubmit}>
                     <FormItem
                         {...formItemLayout}
-                        label="E-mail"
+                        label="E-mail1"
                         hasFeedback
                     >
                         {getFieldDecorator('email', {
@@ -167,7 +183,7 @@ const RegistrationForm = Form.create()(
                             <Input addonBefore={prefixSelector} />
                         )}
                     </FormItem>
-                    <FormItem
+                    {/* <FormItem
                         {...formItemLayout}
                         label="Captcha"
                         extra="We must make sure that your are a human."
@@ -184,7 +200,7 @@ const RegistrationForm = Form.create()(
                                 <Button size="large">Get captcha</Button>
                             </Col>
                         </Row>
-                    </FormItem>
+                    </FormItem> */}
                     <FormItem {...tailFormItemLayout} style={{ marginBottom: 8 }}>
                         {getFieldDecorator('agreement', {
                             valuePropName: 'checked',
